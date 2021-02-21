@@ -22,7 +22,7 @@ class BandList {
   }
 
   getAllBands() {
-    return this.band;
+    return this.bands;
   }
 
   voteUp(id) {

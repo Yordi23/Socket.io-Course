@@ -42,21 +42,20 @@
 
     <script>
         const socket = io('http://localhost:8080/');
-        const form = document.querySelector("#main-form")
-        const messages = document.querySelector("#messages")
-        const txtMessage = document.querySelector("#txtMessage")
+        // const form = document.querySelector("#main-form")
+        // const messages = document.querySelector("#messages")
+        // const txtMessage = document.querySelector("#txtMessage")
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+        // form.addEventListener('submit', (e) => {
+        //     e.preventDefault();
 
-            const newMessage = txtMessage.value
+        //     const newMessage = txtMessage.value
 
-            socket.emit('message-to-server', { message: newMessage })
-        })
+        //     socket.emit('message-to-server', { message: newMessage })
+        // })
 
-        socket.on('message-to-client', (data) => {
-            console.log('Event received: ', data)
-            messages.innerHTML += `<li>${data.message}</li>`
+        socket.on('current-bands', (bands) => {
+            console.log('Bands: ', bands)
         })
 
 
