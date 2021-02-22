@@ -1,34 +1,13 @@
 import userEvent from '@testing-library/user-event';
 import { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
 import './App.css';
 import { BandAdd } from './components/BandAdd';
 import { BandList } from './components/BandList';
-
-const connectSocketServer = () => {
-  return io.connect('http://localhost:8080/', {
-    transports: ['websocket'],
-  });
-};
+import { useSocket } from './hooks/useSocket';
 
 function App() {
-  const [socket] = useState(connectSocketServer());
-  const [online, setOnline] = useState(false);
   const [bands, setBands] = useState([]);
-
-  useEffect(() => {
-    setOnline(socket.connected);
-  }, [socket]);
-
-  useEffect(() => {
-    socket.on('connect', () => {
-      setOnline(true);
-    });
-
-    socket.on('disconnect', () => {
-      setOnline(false);
-    });
-  }, [socket]);
+  const { socket, online } = useSocket('http://localhost:8080/');
 
   useEffect(() => {
     socket.on('current-bands', (bands) => {
@@ -47,10 +26,6 @@ function App() {
 
   const updateBandName = (id, name) => {
     socket.emit('update-band-name', { id, name });
-  };
-
-  const createBand = (name) => {
-    socket.emit('create-band', { name });
   };
 
   return (
@@ -79,7 +54,7 @@ function App() {
           />
         </div>
         <div className="col-4">
-          <BandAdd createBand={createBand} />
+          <BandAdd />
         </div>
       </div>
     </div>
