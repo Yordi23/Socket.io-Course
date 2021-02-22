@@ -14,9 +14,9 @@ const connectSocketServer = () => {
 function App() {
   const [socket] = useState(connectSocketServer());
   const [online, setOnline] = useState(false);
+  const [bands, setBands] = useState([]);
 
   useEffect(() => {
-    console.log(socket);
     setOnline(socket.connected);
   }, [socket]);
 
@@ -29,6 +29,29 @@ function App() {
       setOnline(false);
     });
   }, [socket]);
+
+  useEffect(() => {
+    socket.on('current-bands', (bands) => {
+      console.log(bands);
+      setBands(bands);
+    });
+  }, [socket]);
+
+  const voteBand = (id) => {
+    socket.emit('vote-band', { id });
+  };
+
+  const deleteBand = (id) => {
+    socket.emit('delete-band', { id });
+  };
+
+  const updateBandName = (id, name) => {
+    socket.emit('update-band-name', { id, name });
+  };
+
+  const createBand = (name) => {
+    socket.emit('create-band', { name });
+  };
 
   return (
     <div className="container">
@@ -48,10 +71,15 @@ function App() {
 
       <div className="row">
         <div className="col-8">
-          <BandList />
+          <BandList
+            data={bands}
+            voteBand={voteBand}
+            deleteBand={deleteBand}
+            updateBandName={updateBandName}
+          />
         </div>
         <div className="col-4">
-          <BandAdd />
+          <BandAdd createBand={createBand} />
         </div>
       </div>
     </div>
