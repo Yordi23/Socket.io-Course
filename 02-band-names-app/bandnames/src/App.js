@@ -1,32 +1,11 @@
-import userEvent from '@testing-library/user-event';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import './App.css';
 import { BandAdd } from './components/BandAdd';
 import { BandList } from './components/BandList';
-import { useSocket } from './hooks/useSocket';
+import { SocketContext } from './contex/SocketContex';
 
 function App() {
-  const [bands, setBands] = useState([]);
-  const { socket, online } = useSocket('http://localhost:8080/');
-
-  useEffect(() => {
-    socket.on('current-bands', (bands) => {
-      console.log(bands);
-      setBands(bands);
-    });
-  }, [socket]);
-
-  const voteBand = (id) => {
-    socket.emit('vote-band', { id });
-  };
-
-  const deleteBand = (id) => {
-    socket.emit('delete-band', { id });
-  };
-
-  const updateBandName = (id, name) => {
-    socket.emit('update-band-name', { id, name });
-  };
+  const { online } = useContext(SocketContext);
 
   return (
     <div className="container">
@@ -46,12 +25,7 @@ function App() {
 
       <div className="row">
         <div className="col-8">
-          <BandList
-            data={bands}
-            voteBand={voteBand}
-            deleteBand={deleteBand}
-            updateBandName={updateBandName}
-          />
+          <BandList />
         </div>
         <div className="col-4">
           <BandAdd />
