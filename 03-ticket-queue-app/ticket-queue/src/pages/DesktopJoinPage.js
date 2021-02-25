@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Form,
   Input,
@@ -8,8 +8,9 @@ import {
   Divider,
 } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useHideMenu } from '../hooks/useHideMenu';
+import { getUserFromStorage } from '../helpers/getUserFromStorage';
 
 const { Title, Text } = Typography;
 const layout = {
@@ -29,10 +30,13 @@ const tailLayout = {
 
 export const DesktopJoinPage = () => {
   const history = useHistory();
+  const [agent] = useState(getUserFromStorage());
+
   useHideMenu(false);
 
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const onFinish = ({ name, desktop }) => {
+    localStorage.setItem('name', name);
+    localStorage.setItem('desktop', desktop);
 
     history.push('/desktop');
   };
@@ -40,6 +44,10 @@ export const DesktopJoinPage = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+  if (agent.name && agent.desktop) {
+    return <Redirect to="/desktop" />;
+  }
 
   return (
     <>

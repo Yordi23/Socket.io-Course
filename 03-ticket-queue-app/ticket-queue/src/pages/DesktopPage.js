@@ -9,23 +9,36 @@ import {
   Row,
   Typography,
 } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
+import { getUserFromStorage } from '../helpers/getUserFromStorage';
 import { useHideMenu } from '../hooks/useHideMenu';
 
 const { Title, Text } = Typography;
 
 export const DesktopPage = () => {
   useHideMenu(false);
+  const [agent] = useState(getUserFromStorage());
+  const history = useHistory();
 
-  const exit = () => {};
+  const exit = () => {
+    localStorage.clear();
+    history.replace('join-desktop');
+  };
+
   const nextTicket = () => {};
+
+  if (!agent.name || !agent.desktop) {
+    return <Redirect to="/desktop" />;
+  }
+
   return (
     <>
       <Row>
         <Col span={20}>
-          <Title level={2}>User</Title>
+          <Title level={2}>{agent.name}</Title>
           <Text>You are working on the desk number: </Text>
-          <Text type="success">5</Text>
+          <Text type="success">{agent.desktop}</Text>
         </Col>
 
         <Col span={4} align="right">
@@ -46,7 +59,7 @@ export const DesktopPage = () => {
         <Col>
           <Text>You are attending ticket number:</Text>
           <Text style={{ fontSize: 30 }} type="danger">
-            55
+            5
           </Text>
         </Col>
       </Row>
