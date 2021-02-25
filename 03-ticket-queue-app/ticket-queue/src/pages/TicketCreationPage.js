@@ -1,14 +1,20 @@
 import { DownloadOutlined } from '@ant-design/icons';
 import { Row, Col, Typography, Button } from 'antd';
-import React from 'react';
+import React, { useContext } from 'react';
+import { SocketContext } from '../context/SocketContex';
 import { useHideMenu } from '../hooks/useHideMenu';
 
 const { Title, Text } = Typography;
 
 export const TicketCreationPage = () => {
   useHideMenu(true);
+  const { socket } = useContext(SocketContext);
 
-  const newTicket = () => {};
+  const newTicket = () => {
+    socket.emit('create-ticket', undefined, (newTicket) => {
+      console.log(newTicket);
+    });
+  };
   return (
     <>
       <Row>

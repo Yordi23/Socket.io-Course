@@ -3,7 +3,7 @@ const TicketList = require('./ticket-list');
 class Sockets {
   constructor(io) {
     this.io = io;
-    this.bandList = new TicketList();
+    this.ticketList = new TicketList();
 
     this.socketEvents();
   }
@@ -14,10 +14,11 @@ class Sockets {
 
       // socket.emit('current-bands', this.bandList.getAllBands());
 
-      // socket.on('vote-band', (data) => {
-      //   this.bandList.voteUp(data.id);
-      //   this.io.emit('current-bands', this.bandList.getAllBands());
-      // });
+      socket.on('create-ticket', (data, cb) => {
+        const newTicket = this.ticketList.createTicket();
+        console.log('New Ticket:', newTicket.number);
+        cb(newTicket);
+      });
 
       // socket.on('delete-band', (data) => {
       //   this.bandList.deleteBand(data.id);

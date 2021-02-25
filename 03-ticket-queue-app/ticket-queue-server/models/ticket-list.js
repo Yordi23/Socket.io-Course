@@ -16,7 +16,7 @@ class TicketList {
   }
 
   createTicket() {
-    const newTicket = new Ticket(this.lastNumber);
+    const newTicket = new Ticket(nextNumber());
     this.pendingTickets.push(newTicket);
 
     return newTicket;
