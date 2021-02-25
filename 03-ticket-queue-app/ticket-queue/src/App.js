@@ -1,11 +1,12 @@
 import './App.css';
+import { UIProvider } from './context/UIContext';
 import { RouterPage } from './pages/RouterPage';
 
 function App() {
   return (
-    <div>
-      <RouterPage/>
-    </div>
+    <UIProvider>
+      <RouterPage />
+    </UIProvider>
   );
 }
 

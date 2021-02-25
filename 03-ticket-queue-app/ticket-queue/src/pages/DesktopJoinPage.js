@@ -9,6 +9,7 @@ import {
 } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
+import { useHideMenu } from '../hooks/useHideMenu';
 
 const { Title, Text } = Typography;
 const layout = {
@@ -28,6 +29,7 @@ const tailLayout = {
 
 export const DesktopJoinPage = () => {
   const history = useHistory();
+  useHideMenu(false);
 
   const onFinish = (values) => {
     console.log('Success:', values);

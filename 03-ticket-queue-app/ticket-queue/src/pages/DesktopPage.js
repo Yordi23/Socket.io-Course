@@ -10,10 +10,13 @@ import {
   Typography,
 } from 'antd';
 import React from 'react';
+import { useHideMenu } from '../hooks/useHideMenu';
 
 const { Title, Text } = Typography;
 
 export const DesktopPage = () => {
+  useHideMenu(false);
+
   const exit = () => {};
   const nextTicket = () => {};
   return (

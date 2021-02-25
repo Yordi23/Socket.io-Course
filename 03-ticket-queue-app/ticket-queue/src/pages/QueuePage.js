@@ -8,6 +8,7 @@ import {
   Divider,
 } from 'antd';
 import React from 'react';
+import { useHideMenu } from '../hooks/useHideMenu';
 
 const { Title, Text } = Typography;
 
@@ -50,6 +51,8 @@ const data = [
 ];
 
 export const QueuePage = () => {
+  useHideMenu(true);
+
   return (
     <>
       <Title level={1}>Attending client</Title>

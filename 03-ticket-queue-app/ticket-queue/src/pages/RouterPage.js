@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Layout, Menu } from 'antd';
 import {
   UserOutlined,
@@ -16,14 +16,20 @@ import { DesktopJoinPage } from './DesktopJoinPage';
 import { QueuePage } from './QueuePage';
 import { TicketCreationPage } from './TicketCreationPage';
 import { DesktopPage } from './DesktopPage';
+import { UIContext } from '../context/UIContext';
 
 const { Sider, Content } = Layout;
 
 export const RouterPage = () => {
+  const { isMenuHidden } = useContext(UIContext);
   return (
     <Router>
       <Layout style={{ height: '100vh' }}>
-        <Sider collapsedWidth="0" breakpoint="md">
+        <Sider
+          collapsedWidth="0"
+          breakpoint="md"
+          hidden={isMenuHidden}
+        >
           <div className="logo" />
           <Menu
             theme="dark"
