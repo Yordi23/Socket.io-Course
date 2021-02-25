@@ -1,12 +1,15 @@
 import './App.css';
+import { SocketProvider } from './context/SocketContex';
 import { UIProvider } from './context/UIContext';
 import { RouterPage } from './pages/RouterPage';
 
 function App() {
   return (
-    <UIProvider>
-      <RouterPage />
-    </UIProvider>
+    <SocketProvider>
+      <UIProvider>
+        <RouterPage />
+      </UIProvider>
+    </SocketProvider>
   );
 }
 
