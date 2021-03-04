@@ -15,24 +15,25 @@ class Server {
 
     // Socket configuration
     this.io = socketio(this.server);
+    this.socket = new Sockets(this.io);
   }
 
   middlewares() {
     this.app.use(express.static(path.resolve(__dirname, "../public")));
 
     this.app.use(cors());
-  }
 
-  socketConfiguration() {
-    new Sockets(this.io);
+    this.app.get('/tickets/top', (req, res) => {
+      res.json({
+        status: 'success',
+        topTickets: this.socket.ticketList.topTickets
+      })
+    })
   }
 
   start() {
     //Initialize middleware
     this.middlewares();
-
-    //Initializa socket
-    this.socketConfiguration();
 
     //Initialize server
     this.server.listen(this.port, () => {

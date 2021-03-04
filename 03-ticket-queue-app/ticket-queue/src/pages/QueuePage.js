@@ -9,6 +9,7 @@ import {
 } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { SocketContext } from '../context/SocketContex';
+import { getTopTickets } from '../helpers/getTopTickets';
 import { useHideMenu } from '../hooks/useHideMenu';
 
 const { Title, Text } = Typography;
@@ -17,6 +18,12 @@ export const QueuePage = () => {
   useHideMenu(true);
   const { socket } = useContext(SocketContext)
   const [tickets, setTickets] = useState([])
+
+  useEffect(() => {
+    getTopTickets().then((data) => {
+      setTickets(data.topTickets);
+    })
+  }, [])
 
   useEffect(() => {
     socket.on('assigned-ticket', (data) => {
