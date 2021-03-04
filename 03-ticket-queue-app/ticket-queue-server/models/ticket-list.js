@@ -23,7 +23,7 @@ class TicketList {
   }
 
   assignTicket(agent, desktop) {
-    if (this.pendingTickets.length) return undefined;
+    if (this.pendingTickets.length === 0) return undefined;
     if (!agent || !desktop) return undefined;
 
     const nextTicket = this.pendingTickets.shift();

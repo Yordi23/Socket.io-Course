@@ -9,8 +9,9 @@ import {
   Row,
   Typography,
 } from 'antd';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
+import { SocketContext } from '../context/SocketContex';
 import { getUserFromStorage } from '../helpers/getUserFromStorage';
 import { useHideMenu } from '../hooks/useHideMenu';
 
@@ -19,6 +20,9 @@ const { Title, Text } = Typography;
 export const DesktopPage = () => {
   useHideMenu(false);
   const [agent] = useState(getUserFromStorage());
+  const { socket } = useContext(SocketContext);
+  const [ticket, setTicket] = useState(undefined)
+
   const history = useHistory();
 
   const exit = () => {
@@ -26,7 +30,11 @@ export const DesktopPage = () => {
     history.replace('join-desktop');
   };
 
-  const nextTicket = () => {};
+  const nextTicket = () => {
+    socket.emit('get-next-ticket', agent, (ticket) => {
+      setTicket(ticket)
+    })
+  };
 
   if (!agent.name || !agent.desktop) {
     return <Redirect to="/desktop" />;
@@ -56,12 +64,17 @@ export const DesktopPage = () => {
       <Divider />
 
       <Row>
-        <Col>
-          <Text>You are attending ticket number:</Text>
-          <Text style={{ fontSize: 30 }} type="danger">
-            5
-          </Text>
-        </Col>
+        {
+          ticket ?
+            (<Col>
+              <Text>You are attending ticket number:</Text>
+              <Text style={{ fontSize: 30 }} type="danger">
+                {ticket.number}
+              </Text>
+            </Col>) :
+            (<Col>
+              <Text>You are not attending any ticket</Text>
+            </Col>)}
       </Row>
 
       <Row>
