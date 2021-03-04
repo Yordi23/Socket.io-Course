@@ -1,11 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import { MapPage } from './pages/MapPage';
 
 function App() {
   return (
-    <div className="App">
-      Maps
-    </div>
+    <MapPage />
   );
 }
 
