@@ -15,6 +15,27 @@ export const useMapBox = (startPoint) => {
     const map = useRef();
     const [coords, setCoords] = useState(startPoint);
 
+    const createMarker = useCallback((e) => {
+        const { lng, lat } = e.lngLat;
+
+        const marker = new mapboxgl.Marker();
+        marker.id = uuid();
+
+        marker.setLngLat([lng, lat])
+            .addTo(map.current)
+            .setDraggable(true);
+
+        markers.current[marker.id] = marker;
+
+        //Listen to marker movement
+        marker.on('drag', ({ target }) => {
+            const { id } = target;
+            const { lng, lat } = target.getLngLat();
+
+            //TODO: emit socket event
+        });
+    }, []);
+
     useEffect(() => {
         const newMap = new mapboxgl.Map({
             container: mapDiv.current,
@@ -41,22 +62,18 @@ export const useMapBox = (startPoint) => {
     }, []);
 
     useEffect(() => {
-        map.current.on('click', (e) => {
-            const { lng, lat } = e.lngLat;
+        map.current.on('click', createMarker);
+        // Equal to:
+        //
+        // map.current.on('click', (e) => {
+        //     createMarker(e);
+        // });
 
-            const marker = new mapboxgl.Marker();
-            marker.id = uuid();
-
-            marker.setLngLat([lng, lat])
-                .addTo(map.current)
-                .setDraggable(true);
-
-            markers.current[marker.id] = marker;
-        });
-    }, []);
+    }, [createMarker]);
 
     return {
         coords,
+        createMarker,
         markers,
         setRef
     };
