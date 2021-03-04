@@ -25,6 +25,8 @@ class Sockets {
 
         console.log('Assigned ticket:', nextTicket);
         cb(nextTicket);
+
+        this.io.emit('assigned-ticket', this.ticketList.topTickets)
       });
     });
   }
