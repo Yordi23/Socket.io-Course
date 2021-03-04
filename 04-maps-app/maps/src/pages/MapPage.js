@@ -8,8 +8,14 @@ const startPoint = {
 };
 
 export const MapPage = () => {
-	const { coords, setRef } = useMapBox(startPoint);
+	const { coords, setRef, newMarker$ } = useMapBox(startPoint);
 
+	useEffect(() => {
+		newMarker$.subscribe(marker => {
+			console.log(marker);
+		});
+
+	}, [newMarker$]);
 	return <>
 		<div className='info'>
 			Lng: {coords.lng} | Lat: {coords.lat} | Zoom: {coords.zoom}
