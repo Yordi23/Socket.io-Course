@@ -8,7 +8,7 @@ const startPoint = {
 };
 
 export const MapPage = () => {
-	const { coords, setRef, newMarker$ } = useMapBox(startPoint);
+	const { coords, setRef, newMarker$, markerMovement$ } = useMapBox(startPoint);
 
 	useEffect(() => {
 		newMarker$.subscribe(marker => {
@@ -16,6 +16,13 @@ export const MapPage = () => {
 		});
 
 	}, [newMarker$]);
+
+	useEffect(() => {
+		markerMovement$.subscribe(marker => {
+			console.log(marker);
+		});
+
+	}, [markerMovement$]);
 	return <>
 		<div className='info'>
 			Lng: {coords.lng} | Lat: {coords.lat} | Zoom: {coords.zoom}

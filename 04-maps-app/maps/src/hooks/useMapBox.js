@@ -31,14 +31,14 @@ export const useMapBox = (startPoint) => {
 
         markers.current[marker.id] = marker;
 
-        newMarker.current.next(marker);
+        newMarker.current.next({ id: marker.id, lng, lat });
 
         //Listen to marker movement
         marker.on('drag', ({ target }) => {
             const { id } = target;
             const { lng, lat } = target.getLngLat();
 
-            //TODO: emit socket event
+            markerMovement.current.next({ id, lng, lat });
         });
     }, []);
 
@@ -82,6 +82,7 @@ export const useMapBox = (startPoint) => {
         createMarker,
         markers,
         newMarker$: newMarker.current,
+        markerMovement$: markerMovement.current,
         setRef
     };
 };
