@@ -10,7 +10,7 @@ const startPoint = {
 
 export const MapPage = () => {
 	const mapDiv = useRef();
-	const [map, setMap] = useState();
+	const map = useRef();
 	const [coords, setCoords] = useState(startPoint);
 
 	useEffect(() => {
@@ -21,14 +21,14 @@ export const MapPage = () => {
 			zoom: startPoint.zoom
 		});
 
-		setMap(newMap);
+		map.current = newMap;
 
 	}, []);
 
 	useEffect(() => {
-		map?.on('move', () => {
-			const { lng, lat } = map.getCenter();
-			const zoom = map.getZoom();
+		map.current.on('move', () => {
+			const { lng, lat } = map.current.getCenter();
+			const zoom = map.current.getZoom();
 
 			setCoords({
 				lng: lng.toFixed(4),
@@ -36,7 +36,7 @@ export const MapPage = () => {
 				zoom: zoom.toFixed(2),
 			});
 		});
-	}, [map]);
+	}, []);
 
 	return <>
 		<div className='info'>
