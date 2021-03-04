@@ -5,3 +5,14 @@
 	bottom: 0;
 	right: 0;
 }
+
+.info {
+	color: white;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 20px;
+	z-index: 99;
+	padding: 10px;
+}
