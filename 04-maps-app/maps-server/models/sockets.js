@@ -1,3 +1,4 @@
+const MarkerList = require("./markerList");
 
 
 class Sockets {
@@ -5,7 +6,7 @@ class Sockets {
     constructor(io) {
 
         this.io = io;
-
+        this.markers = new MarkerList();
         this.socketEvents();
     }
 
