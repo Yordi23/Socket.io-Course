@@ -2,7 +2,7 @@
 
 class Sockets {
 
-    constructor( io ) {
+    constructor(io) {
 
         this.io = io;
 
@@ -10,17 +10,16 @@ class Sockets {
     }
 
     socketEvents() {
-        // On connection
-        this.io.on('connection', ( socket ) => {
+        this.io.on('connection', (socket) => {
+            console.log('Client connected');
 
-            // Escuchar evento: mensaje-to-server
-            socket.on('mensaje-to-server', ( data ) => {
-                console.log( data );
-                
-                this.io.emit('mensaje-from-server', data );
-            });
-            
-        
+            // socket.on('mensaje-to-server', (data) => {
+            //     console.log(data);
+
+            //     this.io.emit('mensaje-from-server', data);
+            // });
+
+
         });
     }
 
