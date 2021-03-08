@@ -1,10 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import { MapPage } from './pages/MapPage';
+import { SocketProvider } from './context/SocketContext';
 
 function App() {
   return (
-    <MapPage />
+    <SocketProvider>
+      <MapPage />
+    </SocketProvider>
   );
 }
 
