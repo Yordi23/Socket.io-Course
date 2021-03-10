@@ -14,11 +14,14 @@ class Sockets {
         this.io.on('connection', (socket) => {
             console.log('Client connected');
 
-            // socket.on('mensaje-to-server', (data) => {
-            //     console.log(data);
+            socket.emit('active-markers', this.markers.activeMarkers);
 
-            //     this.io.emit('mensaje-from-server', data);
-            // });
+            socket.on('new-marker', (marker) => {
+                console.log("Event: new-marker", marker);
+                this.markers.addMarker(marker);
+
+                socket.broadcast.emit('new-marker', marker);
+            });
 
 
         });

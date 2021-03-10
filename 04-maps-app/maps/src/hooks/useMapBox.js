@@ -20,10 +20,10 @@ export const useMapBox = (startPoint) => {
     const [coords, setCoords] = useState(startPoint);
 
     const createMarker = useCallback((e) => {
-        const { lng, lat } = e.lngLat;
+        const { lng, lat } = e.lngLat || e;
 
         const marker = new mapboxgl.Marker();
-        marker.id = uuid();
+        marker.id = e.id || uuid();
 
         marker.setLngLat([lng, lat])
             .addTo(map.current)
@@ -31,7 +31,7 @@ export const useMapBox = (startPoint) => {
 
         markers.current[marker.id] = marker;
 
-        newMarker.current.next({ id: marker.id, lng, lat });
+        if (!e.id) newMarker.current.next({ id: marker.id, lng, lat });
 
         //Listen to marker movement
         marker.on('drag', ({ target }) => {
